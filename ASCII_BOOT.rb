@@ -31,24 +31,32 @@ class Student
 	end
 end
 
-
-# view ===============================
+# View ===============================
 
 class Display
 	def self.welcome
-		puts "Welcome to BootScoop"
+		puts "---------------------------------"
+		puts "     Welcome to BootScoop!"
+		puts "  An AsciiArt Guessing Game"
+		puts "---------------------------------"
 	end
 
 	def self.get_input
-		puts "1: Bumblebees"
-		puts "2: Mud Turtles"
-		puts "3: Great North American Carnivorous Horned Owls"
-		puts "4: Ospreys - Phase 0"
-		puts "5: 'quit' to exit"
+		puts ""
+		puts "   Please select a cohort:"
+		puts "---------------------------------"
+		puts "   1: Bumblebees"
+		puts "   2: Mud Turtles"
+		puts "   3: Great Horned Owls"
+		puts "   4: Ospreys - Phase 0"
+		puts "   5: Fiddler Crabs- March 2014"
+		puts "   6: 'quit' to exit"
+		puts "---------------------------------"
 		gets.chomp.to_i
 	end
 
 	def self.get_guess
+		puts "What's your guess?"
 		input = gets.chomp
 	end
 
@@ -79,14 +87,10 @@ class Display
 	end
 
 	def self.score(score,length)
-		puts "You got #{score} out of #{length}"
+		puts "You got #{score} out of #{length}!"
 	end
 
-
-
-
 end
-
 
 
 # controller =========================
@@ -109,14 +113,14 @@ module Controller
 					puts ""
 					p ("~" * 46) + "CORRECT" + ("~" * 46)
 					sleep(@sleep)
-					# Display.clear_screen!
+					Display.clear_screen!
 				else
 					break if @quit == true
 					make_ascii(Display.incorrect)
 					puts ""
 					p ("~" * 43) + "SUCK IT, NERD" + ("~" * 43)
 					sleep(@sleep)
-					# Display.clear_screen!
+					Display.clear_screen!
 				end
 			end
 
@@ -128,7 +132,9 @@ module Controller
 				1 => 58,
 				2 => 57,
 				3 => 56,
-				4 => 59
+				4 => 59,
+				5 => 47,
+
 			}
 			@cohort = Cohort.new(DBC::Cohort.find(cohort_translation[id]).students)
 			sleep(0.5)
@@ -147,7 +153,7 @@ module Controller
 
 		def make_ascii(url)
 			if url == "http://www.gravatar.com/avatar/29ccc5b18ceab05f3327065878b547af"
-				url = "http://bit.ly/ObP4NB"
+			   url = "http://bit.ly/ObP4NB"
 			end
 			ascii = AsciiArt.new(url)
 			puts ascii.to_ascii_art
@@ -155,7 +161,7 @@ module Controller
 
 		def evaluate_guess(guess) # guess is user input coming in as a string
 			Display.clear_screen!
-			if guess.downcase == "quit"
+			if guess.downcase == "quit" || guess.downcase =="6"
 				@quit = true
 				make_ascii("http://bit.ly/1f7eneC")
 				sleep(1.5)
